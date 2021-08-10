@@ -1,0 +1,91 @@
+@import '../../global';
+
+.add-modal{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.685);
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(6px);
+    .modal-wrapper{
+        background-color: $primary;
+        border-radius: $radius-default;
+        border: 2px solid $dark-grey;
+        padding: 1.5rem;
+        .form{
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            grid-gap: 1.5rem;
+            .MuiOutlinedInput-input{
+                color: rgba(255, 255, 255, 0.849);
+                border-radius: $radius-default
+            }
+            .MuiFormLabel-root{
+                color: $dark-blue;
+            }
+            textarea{
+                background-color: $primary;
+                color: rgba(255, 255, 255, 0.76);
+                padding: 12px;
+                border-color: #397981;
+                border-radius: $radius-default;
+                font-size: 1rem;
+                &:focus{
+                outline: 2px solid $dark-blue;
+                border-radius: $radius-default;
+                }
+            }
+            .btn-modal{
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                button{
+                    padding: $padding-btn;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    border-radius: $radius-default;
+                    cursor: pointer;
+                    &:hover{
+                        transform: translateY(-4);
+                        z-index: 10;
+                    }
+                }
+                .btn-submit-modal{
+                    background-color: darken($dark-blue, 40);
+                    width: 70%;
+                    color: #fff;
+                    border: none;
+                    &:hover{
+                        border: 2px solid $dark-blue;
+                        
+                    }
+                    &:active{
+                        transform: translateY(0);
+                    }
+                }
+                .btn-cancle-modal{
+                    border: none;
+                    width: 30%;
+                    background-color: rgba(255, 255, 255, 0);
+                    color: rgb(199, 48, 48);
+                }
+            }
+        }
+    }
+}
+
+.value-null{
+    color: rgb(199, 48, 48);
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    margin-top: -1rem;
+}

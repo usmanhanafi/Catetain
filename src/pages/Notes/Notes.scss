@@ -1,0 +1,40 @@
+.notes {
+  color: #fff;
+  .nav-notes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 70px;
+    align-items: center;
+    .action-page {
+      display: flex;
+      flex-direction: row;
+      grid-gap: 1rem;
+    }
+  }
+  .heading {
+    h1 {
+      line-height: 2rem;
+    }
+    .date-note {
+        color: rgba(255, 255, 255, 0.6);
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: center;
+        p{
+            font-size: 1rem;
+        }
+        svg {
+            font-size: 1rem;
+            margin-right: 8px;
+          }
+    }
+  }
+  .body-content {
+    .content {
+      line-height: 1.5rem;
+      text-align: justify;
+    }
+  }
+}

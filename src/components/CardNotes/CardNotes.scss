@@ -1,0 +1,54 @@
+@import "../../global";
+$bg-color: $dark-green;
+
+.card-wrapper {
+  background-color: $bg-color;
+  padding: 0.6rem 1rem;
+  border-radius: $radius-default;
+  height: fit-content;
+  margin: 4px;
+  background-size: cover;
+  &:hover{
+      background-color: darken($bg-color, 30);
+      box-shadow: 4px 6px 8px rgb(17, 17, 17);
+      transform: translateY(-4px);
+  }
+  &:active{
+    box-shadow: 3px 4px 8px rgb(17, 17, 17);
+    transform: translateY(0px);
+  }
+  h3 {
+    font-size: 18px;
+    color: $primary;
+    z-index: 2;
+    font-weight: 600;
+    &:hover{
+        text-decoration: underline;
+        color: whitesmoke;
+    }
+  }
+  .date {
+    color: $primary;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    opacity: 0.6;
+    z-index: 2;
+    svg {
+      font-size: 1rem;
+      margin-right: 8px;
+    }
+  }
+  button{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    color: $primary;
+    text-align: left;
+    cursor: pointer;
+  }
+}
+
+a {
+  text-decoration: none;
+}
