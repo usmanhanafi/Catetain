@@ -6,9 +6,6 @@ import { withStyles } from "@material-ui/core/styles";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import { formatDate, timestamp } from "../../utils";
 import swal from "sweetalert";
-import { url } from "../../utils";
-import axios from "axios";
-import { uid } from "uid";
 import {connect} from "react-redux";
 import {handleModal, setNotes, AddDataToAPI} from "../../config/redux/action";
 
@@ -76,10 +73,9 @@ class AddModal extends Component {
       content: formData.content,
       date: "Created at " + formatDate(timestamp),
     };
-    data.push(dataSubmit);
+    // data.push(dataSubmit);
     // this.props.setNotes(data);
     this.props.AddDataToAPI(dataSubmit);
-    // axios.post(`${url}`, dataSubmit);
     this.setState({formData: { heading: "", content: "" }});
     this.props.setIsModal(false);
   };

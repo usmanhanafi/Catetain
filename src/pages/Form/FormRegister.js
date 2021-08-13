@@ -34,11 +34,23 @@ class FormRegister extends Component {
       });
     }
   };
+  handleCloseErr = () => {
+    this.props.setErrorSubmit(false);
+    this.props.setErrorSubmitMessage("");
+  }
   render() {
     const { values } = this.state;
     return (
       <div className="myform">
         <div className="form-wrapper">
+        {this.props.isErrorSubmit ? (
+            <div className="err-submit-message">
+              <p>{this.props.isErrorSubmitMessage}</p>
+              <div className="close-err" onClick={this.handleCloseErr}>
+                <p>x</p>
+              </div>
+            </div>
+          ): null}
           <h3>Register</h3>
           <form onSubmit={this.handleSubmit}>
             <div className="form-content">

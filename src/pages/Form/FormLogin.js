@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import "./Form.scss";
 import { Link } from "react-router-dom";
-import { loginUserApi } from "../../config/redux/action";
+import { loginUserApi, setErrorSubmit, setErrorSubmitMessage } from "../../config/redux/action";
 import { connect } from "react-redux";
 import swal from "sweetalert";
+import {Loading} from "../../Loading";
 
 const gIcon = "./assets/icon/google.svg";
 class FormLogin extends Component {
@@ -23,16 +24,16 @@ class FormLogin extends Component {
     const { username, password } = this.state.values;
     const res = await this.props
       .loginApi({ username, password })
-      .catch((errorMessage) => {
-        swal("auth/wrong-password The password is invalid or the user does not have a password.", {
-          icon: "warning",
-          buttons: false,
-          timer: 1500,
-        });
-        // console.log(errorMessage)
-      });
+      // .catch((errorMessage) => {
+      //   // swal("auth/wrong-password The password is invalid or the user does not have a password.", {
+      //   //   icon: "warning",
+      //   //   buttons: false,
+      //   //   timer: 1500,
+      //   // });
+      //   // console.log(errorMessage)
+      // });
     if (res) {
-      this.props.history.push('/')
+      this.props.history.push(`/${res.userId}`);
       swal("Yeay Berhasil Masuk", {
         icon: "success",
         buttons: false,
@@ -48,11 +49,24 @@ class FormLogin extends Component {
       });
     }
   };
+  handleCloseErr = () => {
+    this.props.setErrorSubmit(false);
+    this.props.setErrorSubmitMessage("");
+  }
   render() {
     const { values } = this.state;
     return (
       <div className="myform">
+        {this.props.isLoading ? <Loading /> : null}
         <div className="form-wrapper">
+          {this.props.isErrorSubmit ? (
+            <div className="err-submit-message">
+              <p>{this.props.isErrorSubmitMessage}</p>
+              <div className="close-err" onClick={this.handleCloseErr}>
+                <p>x</p>
+              </div>
+            </div>
+          ): null}
           <h3>Login</h3>
           <form onSubmit={this.handleSubmit}>
             <div className="form-content">
@@ -98,9 +112,13 @@ class FormLogin extends Component {
 }
 const reduxDispatch = (dispatch) => ({
   loginApi: (data) => dispatch(loginUserApi(data)),
+  setErrorSubmit: (data) => dispatch(setErrorSubmit(data)),
+  setErrorSubmitMessage: (data) => dispatch(setErrorSubmitMessage(data)),
 });
 const reduxState = (state) => ({
   isLoading: state.isLoading,
+  isErrorSubmit: state.isErrorSubmit,
+  isErrorSubmitMessage: state.isErrorSubmitMessage
 });
 
 export default connect(reduxState, reduxDispatch)(FormLogin);

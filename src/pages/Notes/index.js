@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Container } from "@material-ui/core";
 import {
   BackNotes,
@@ -12,12 +12,12 @@ import "./Notes.scss";
 import swal from "sweetalert";
 import EditModal from "../../components/EditModal";
 import { uid } from "uid";
-import { handleEdit } from "../../config/redux/action";
+import { handleEdit, getDataNotesFromAPI } from "../../config/redux/action";
 import { connect } from "react-redux";
 import { formatDate, timestamp } from "../../utils";
 
 class Notes extends Component {
-  state = {
+  state = [{
     notes: {
       heading: "",
       content: "",
@@ -28,39 +28,34 @@ class Notes extends Component {
       content: "",
     },
     isUpdate: false,
-  };
-  componentDidMount() {
+  }];
+  componentDidMount = async () => {
     const id = this.props.match.params.id;
-    axios.get(`${url}/${id}`).then((res) => {
-      this.setState({
-        notes: {
-          heading: res.data.heading,
-          content: res.data.content,
-          date: res.data.date,
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const userId = userData.userId;
+    console.log(this.props);
+    const res = await this.props.getDataNotesFromAPI({ userId, id });
+    if (res) {
+      const data = [
+        {
+          heading: res.heading,
+          content: res.content,
+          date: res.date,
         },
-        formData: {
-          heading: res.data.heading,
-          content: res.data.content,
-        },
-      });
-    });
-  }
-  // componentDidUpdate() {
-  //   const id = this.props.match.params.id;
-  //   const isUpdate = this.state.isupdate;
-  //   if (isUpdate) {
-  //     return axios.get(`${url}/${id}`).then((res) => {
-  //       // this.setState({
-  //       //   notes: {
-  //       //     heading: res.data.heading,
-  //       //     content: res.data.content,
-  //       //     date: res.data.date,
-  //       //   },
-  //       // });
-  //     });
-  //   }
-  //   // this.setState({ isUpdate: false });
-  // }
+      ];
+      this.setState({ notes: data });
+      console.log(data);
+    }
+    // .then((res) => {
+    //   // const data = {
+    //   //   heading: res.data.heading,
+    //   //   content: res.data.content,
+    //   //   date: res.data.date,
+    //   // };
+    //   // this.setState({ notes: data });
+    //   console.log("ini lho.......: ", res);
+    // });
+  };
   handleDelete = () => {
     const id = this.props.match.params.id;
     swal({
@@ -130,49 +125,60 @@ class Notes extends Component {
     this.setState({ isUpdate: true });
   };
   render() {
-    const id = this.props.match.params.id;
+    const myId = this.props.match.params.id;
+    const notes = this.state;
     return (
-      <Container maxWidth="md">
-        <div className="notes">
-          <nav className="nav-notes">
-            <div className="back-page">
-              <BackNotes onClick={this.handleBack} />
-            </div>
-            <div className="action-page">
-              <DeleteNotes onClick={this.handleDelete} />
-              <EditNotes onClick={this.handleIsEdit} />
-            </div>
-          </nav>
-          <div className="heading">
-            <h1>{this.state.notes.heading}</h1>
-            <p className="date-note">
-              <TodayIcon />
-              {this.state.notes.date}
-            </p>
+      <Fragment>
+        {/* {notes.map((note) => { */}
+        <Container maxWidth="md">
+          <div className="notes">
+            <nav className="nav-notes">
+              <div className="back-page">
+                <BackNotes onClick={this.handleBack} />
+              </div>
+              <div className="action-page">
+                <DeleteNotes onClick={this.handleDelete} />
+                <EditNotes onClick={this.handleIsEdit} />
+              </div>
+            </nav>
+            {notes.map((note) => {
+              <Fragment>
+                <div className="heading">
+                  <h1>{note.heading}</h1>
+                  <p className="date-note">
+                    <TodayIcon />
+                    {note.date}
+                  </p>
+                </div>
+                <div className="body-content">
+                  <p className="content">{note.content}</p>
+                </div>
+              </Fragment>;
+            })}
           </div>
-          <div className="body-content">
-            <p className="content">{this.state.notes.content}</p>
-          </div>
-        </div>
-        {this.props.isEdit ? (
-          <EditModal
-            formData={this.state.formData}
-            id={id}
-            handleChange={this.handleChange}
-            handleEditSubmit={this.handleEditSubmit}
-          />
-        ) : null}
-      </Container>
+          {this.props.isEdit ? (
+            <EditModal
+              formData={this.state.formData}
+              id={myId}
+              handleChange={this.handleChange}
+              handleEditSubmit={this.handleEditSubmit}
+            />
+          ) : null}
+        </Container>
+        {/* })} */}
+      </Fragment>
     );
   }
 }
 
 const reduxState = (state) => ({
   isEdit: state.isEdit,
+  // notes: state.notes,
 });
 
 const reduxDispatch = (dispatch) => ({
   setIsModal: (data) => dispatch(handleEdit(data)),
+  getDataNotesFromAPI: (data) => dispatch(getDataNotesFromAPI(data)),
 });
 
 export default connect(reduxState, reduxDispatch)(Notes);

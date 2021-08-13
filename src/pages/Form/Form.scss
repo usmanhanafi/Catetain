@@ -21,6 +21,35 @@
     width: 100%;
     padding: 1.5rem;
     align-items: left;
+    .err-submit-message{
+      display: flex;
+      flex-direction: row;
+      border-radius: 10px;
+      padding: 12px;
+      align-items: center;
+      justify-content: space-between;
+      background-color: rgb(230, 86, 86);
+      transition: all 0.8s ease-in-out;
+      p{
+        margin: 0;
+        padding: 0;
+        color: whitesmoke;
+        font-size: 14px;
+      }
+      .close-err{
+        border-radius: 12px;
+        height: 24px;
+        width: 24px;
+        background-color: rgba(255, 255, 255, 0.253);
+        cursor: pointer;
+        p{
+          padding: 2px 8px;
+          font-size: 16px;
+          color: whitesmoke;
+          width: 100%;
+        }
+      }
+    }
     h3 {
       font-size: 1.5rem;
       color: darken($dark-blue, 40);

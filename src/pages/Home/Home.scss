@@ -1,0 +1,17 @@
+.homepage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    button{
+        padding: 12px 1.5rem;
+        cursor: pointer;
+        background-color: rgb(32, 143, 137);
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        color: whitesmoke;
+    }
+}
